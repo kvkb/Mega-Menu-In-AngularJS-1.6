@@ -3,6 +3,6 @@ Mege Menu directive without JQuery
 
 ## Unfinished !! Still In Development Phase.
 
-##Dependencies
+## Dependencies
 
 - AngularJS 1.6.4
