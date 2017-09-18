@@ -38,11 +38,13 @@ header{
             }
         }
         .menu{
-            background-color: #047DB6;
             position: absolute;
             width: 250px;
             a{
                 color: #fff;
+                background-color: #047DB6;
+                display: block;
+                padding: 0.5em 1em;
             }
             &.menu-items{
                 top:35px;
