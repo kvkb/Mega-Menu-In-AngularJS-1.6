@@ -9,7 +9,18 @@
     <body ng-app="megamenu">
         <div class="container">
             <header ng-controller="HeaderController">
-                <headermenu obj="MenuItems"></headermenu>
+                <div class="header-menu">
+                    <div class="row">
+                        <div class="col-md-3 col" ng-repeat="obj in MenuItems" ng-click="showMenu(obj)">
+                            <h3 ng-name="item" id="parentItem-{{obj.id}}">{{obj.name}}</h3>
+                            <div class="menu-items menu">
+                                <ul>
+                                    
+                                </ul>
+                            </div>  <!-- menu-items menu hidden -->
+                        </div>
+                    </div>
+                </div>
             </header>
         </div>
     </body>

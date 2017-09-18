@@ -1,123 +1,8 @@
 var app = angular.module("megamenu",[]);
 
-// app.directive("submenu",function(){
-//     function link(scope,element, attrs){
-//
-//     }
-//     return{
-//         restrict: 'E',
-//         scope:{
-//             subMenu:"submenuItem"
-//         },
-//         link:link
-//     }
-// });
 
-app.directive("headermenu",function(){
-
-    function next(elem) {
-        do {
-            elem = elem.nextSibling;
-        } while (elem && elem.nodeType !== 1);
-        return elem;
-    }
-
-    function link(scope, element, attrs) {
-        element.on('click',function(event) {
-
-            let targetElementId = event.target.id;
-            let targetNgName = event.target.getAttribute("ng-name");
-            console.log(targetElementId);
-            let nextSiblingClass = document.getElementById(targetElementId).nextElementSibling.getAttribute("class");
-            let classList = nextSiblingClass.split(' ');
-            //console.log(classList[0]);
-
-            if(targetNgName == "item"){
-                console.log(nextSiblingClass);
-                //document.getElementsByClassName('menu-items').setAttribute("class","menu-items menu hidden");
-                if(classList[0] == "menu-items"){
-                    MenuItems();
-                }
-            }
-            function MenuItems(){
-                if(nextSiblingClass == "menu-items menu hidden"){
-                    document.getElementById(targetElementId).nextElementSibling.setAttribute("class","menu-items menu");
-                }else{
-                    document.getElementById(targetElementId).nextElementSibling.setAttribute("class","menu-items menu hidden");
-                }
-
-            }
-
-            function SubMenuItems(){
-                if(nextSiblingClass == "sub-menu-items menu hidden"){
-                    document.getElementById(targetElementId).nextElementSibling.setAttribute("class","sub-menu-items menu");
-                }else{
-                    document.getElementById(targetElementId).nextElementSibling.setAttribute("class","sub-menu-items menu hidden");
-                }
-
-            }
-
-            if(document.getElementById(targetElementId).nextElementSibling != null){
-
-                if(classList[0] == "menu-items"){
-                    MenuItems();
-                }
-                if(classList[0] == "sub-menu-items"){
-                    SubMenuItems();
-                }
-
-            }
-
-        });
-    }
-    return {
-        restrict: 'E',
-        scope: {
-            menuObject: '=obj'
-        },
-        template:`
-            <div class="header-menu">
-                <div class="row">
-                    <div class="col-md-3 col" ng-repeat="obj in menuObject">
-                        <h3 ng-name="item" id="item-{{obj.id}}">{{obj.name}}</h3>
-                        <div class="menu-items menu hidden">
-                            <ul>
-                                <li ng-repeat="item in obj.subMenu">
-                                    <a href="javascript:void(0);" id="item-{{item.sid}}" ng-click="showSubMenu(item)">{{item.name}}</a>
-                                    <div class="sub-menu-items menu hidden" id="sub-menu-{{item.sid}}">
-                                        <ul>
-                                            <li ng-repeat="subItem1 in item.subMenu">
-                                                <a href="javascript:void(0);" id="item-{{subItem1.sid}}">{{subItem1.name}}</a>
-                                                <div class="sub-menu-items menu hidden">
-                                                    <ul>
-                                                        <li ng-repeat="subItem2 in subItem1.subMenu">
-                                                            <a href="javascript:void(0);" id="item-{{subItem2.sid}}">{{subItem2.name}}</a>
-                                                            <div class="sub-menu-items menu hidden">
-                                                                <ul>
-                                                                    <li ng-repeat="subItem3 in subItem2.subMenu">
-                                                                        <a href="javascript:void(0);" id="item-{{subItem3.sid}}">{{subItem3.name}}</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `,
-        link:link
-    }
-});
 
 app.controller("HeaderController",function($scope){
-
 
     $scope.MenuItems = [
         {
@@ -139,20 +24,7 @@ app.controller("HeaderController",function($scope){
                                         {
                                             sid:11111,
                                             name:"Sub Menu Item 11111",
-                                            subMenu:[
-                                                {
-                                                    sid:11111,
-                                                    name:"Sub Menu Item 11111",
-                                                },
-                                                {
-                                                    sid:11112,
-                                                    name:"Sub Menu Item 11112",
-                                                },
-                                                {
-                                                    sid:11113,
-                                                    name:"Sub Menu Item 11113",
-                                                },
-                                            ]
+
                                         }
                                     ]
                                 },
@@ -202,7 +74,7 @@ app.controller("HeaderController",function($scope){
                 },
                 {
                     sid:22,
-                    name:"Menu Item 21",
+                    name:"Menu Item 22",
                     subMenu:[
                         {
                             sid:211,
@@ -220,7 +92,7 @@ app.controller("HeaderController",function($scope){
                 },
                 {
                     sid:23,
-                    name:"Menu Item 21",
+                    name:"Menu Item 23",
                     subMenu:[
                         {
                             sid:211,
@@ -288,7 +160,98 @@ app.controller("HeaderController",function($scope){
         }
     ];
 
-    $scope.showSubMenu = function(item){
-        console.log(this.next());
+    $scope.showMenu = function(obj){
+
+
+        $scope.menuItemWrap = ``, $scope.subMenuItemWrap;
+        var isArray = obj instanceof Array;
+
+        for (var j in obj) {
+            if( j == "id"){
+                // console.log("obj");
+                // console.log(obj);
+                //console.log(obj['subMenu']);
+                // console.log("obj");
+                // console.log(obj.subMenu.length);
+                for(var count = 0;count < obj.subMenu.length;count++){
+                    console.log(obj.subMenu[count]);
+
+                    //------ BUILD THE FIRST LEVEL MENU -------
+                    $scope.menuItemWrap += `
+                        <li class="child-menu-item">
+                            <a href="javascript:void(0);" id="child-menu-item-`+obj.subMenu[count].sid+`" ng-click="showMenu(`+obj.subMenu+`)">
+                                `+obj.subMenu[count].name+`
+                            </a>
+                        </li>
+                    `;
+
+                    for(var count1 = 0;count1 < obj.subMenu[count].length;count1++){
+                        console.log(obj.subMenu[count1]);
+                        //------ BUILD THE FIRST LEVEL MENU -------
+                        $scope.subMenuItemWrap += `
+                            <div class="sub-menu-items menu">
+                                <ul>
+                                    <li class="child-menu-item">
+                                        <a href="javascript:void(0);" id="child-menu-item-`+obj.subMenu[count].subMenu[count1].sid+`" ng-click="showMenu(`+obj.subMenu+`)">
+                                            `+obj.subMenu[count].subMenu[count1].name+`
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                //------ APPEND THE FIRST LEVEL MENU TO MENU-ITEMS, ON EACH CLICK, THE MENU-ITEMS INNER HTML IS REPLACED
+                document.querySelector(".menu-items").innerHTML = $scope.menuItemWrap;
+                document.querySelector(".child-menu-item").appendChild($scope.menuItemWrap);
+            }
+            // else if( j == "sid"){
+            //
+            //     console.log("sub obj");
+            //     console.log(obj.subMenu);
+            //     for(var count = 0;count < obj.subMenu.length;count++){
+            //         console.log(obj.subMenu[count]);
+            //         //------ BUILD THE FIRST LEVEL MENU -------
+            //         $scope.subMenuItemWrap += `
+            //             <div class="sub-menu-items menu">
+            //                 <ul>
+            //                     <li class="child-menu-item">
+            //                         <a href="javascript:void(0);" id="child-menu-item-`+obj.subMenu[count].sid+`" ng-click="showMenu(`+obj.subMenu+`)">
+            //                             `+obj.subMenu[count].name+`
+            //                         </a>
+            //                     </li>
+            //                 </ul>
+            //             </div>
+            //         `;
+            //     }
+            //
+            //     //document.querySelector("#child-menu-item-"+obj.sid).parentNode.append($scope.subMenuItemWrap);
+            //     //console.log(document.querySelector("#child-menu-item-"+obj.sid).parentNode.innerHTML);
+            //     //document.querySelector(".this-child-menu").innerHTML = $scope.menuItemWrap;
+            //
+            // }
+            if (obj.hasOwnProperty(j)) {
+
+                if (typeof(obj[j]) == "object") {
+                    if(obj[j].hasOwnProperty("subMenu")){
+                        console.log("obj[j]");
+                        console.log(obj[j]['subMenu']);
+                    }
+                    if(!isArray)
+                    {
+                        //console.log(j + ":");
+                    }
+                    $scope.showMenu(obj[j]);
+                } else if(!isArray) {
+                    //console.log(j + ":" + obj[j]);
+                }
+            }
+        }
+
+
     };
+
+    //$scope.showChildMenu
+
+
 });
