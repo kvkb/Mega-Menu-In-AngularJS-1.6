@@ -1,0 +1,71 @@
+/*---------------------  HEADER  -------------------*/
+
+header{
+    .header-menu{
+        background-color:#047DB6;
+        color:#fff;
+        padding: 1em 0;
+        .row{
+            position: relative;
+        }
+        .col{
+            position:static;
+            h3{
+                margin: 0;
+                cursor: pointer;
+                border:{
+                    style:solid;
+                    color:#32B1F4;
+                    width: 0 1px;
+                }
+
+                font:{
+                    size:1em;
+                    family:"Roboto-Bold";
+                }
+                text-align: center;
+                &:after{
+                    content: "\f0d7";
+                    font-family: "fontAwesome";
+                    padding-left: 0.5em;
+                }
+            }
+            &:nth-child(2){
+                h3{
+                    border-width: 0 1px 0 0;
+                }
+            }
+            &:nth-child(3){
+                h3{
+                    border-width: 0;
+                }
+            }
+        }
+        .menu{
+            position: absolute;
+            width: 260px;
+            ul{
+                padding: 0;
+                margin: 0;
+                li{
+                    list-style: none;
+                }
+            }
+            a{
+                color: #fff;
+                background-color: #047DB6;
+                display: block;
+                padding: 0.5em 1em;
+            }
+            &.menu-items{
+                top:35px;
+                left:15px;
+            }
+            &.sub-menu-items{
+                top: 0px;
+                left: 260px;
+
+            }
+        }
+    }
+}

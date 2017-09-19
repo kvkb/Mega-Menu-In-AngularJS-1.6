@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mega Menu in AngularJs</title>
+        <link rel="stylesheet" href="css/integrated.css">
+        <script type="text/javascript" src="js/integrated.js"></script>
+    </head>
+    <body ng-app="megamenu">
+        <div class="container">
+            <header ng-controller="HeaderController">
+                <div class="header-menu">
+                    <div class="row">
+                        <div class="col-md-3 col" ng-repeat="obj in MenuItems">
+                            <h3 ng-name="item" class="main-item" id="parentItem-{{obj.id}}" ng-click="">{{obj.name}}</h3>
+                            <div class="menu-items menu hidden">
+                                <ul>
+                                    <li ng-repeat="item in obj.subMenu">
+                                        <a href="javascript:void(0);" class="menu-item-trigger" id="item-{{item.sid}}" ng-click="">{{item.name}}</a>
+                                        <div class="sub-menu-items menu hidden" id="sub-menu-{{item.sid}}">
+                                            <ul>
+                                                <li ng-repeat="subItem1 in item.subMenu">
+                                                    <a href="javascript:void(0);" class="menu-item-trigger" id="item-{{subItem1.sid}}">{{subItem1.name}}</a>
+                                                    <div class="sub-menu-items menu hidden">
+                                                        <ul>
+                                                            <li ng-repeat="subItem2 in subItem1.subMenu">
+                                                                <a href="javascript:void(0);" class="menu-item-trigger" id="item-{{subItem2.sid}}">{{subItem2.name}}</a>
+                                                                <div class="sub-menu-items menu hidden">
+                                                                    <ul>
+                                                                        <li ng-repeat="subItem3 in subItem2.subMenu">
+                                                                            <a href="javascript:void(0);" class="menu-item-trigger" id="item-{{subItem3.sid}}">{{subItem3.name}}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </body>
+</html>
